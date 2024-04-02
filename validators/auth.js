@@ -1,16 +1,5 @@
 const { check, validationResult } = require('express-validator');
-app.post('/changePassword', [
-    check('password').isStrongPassword()
-  ], (req, res) => {
-    // Check if user is logged in
-    if (!req.session.user) {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-  })
+
   const forgotPasswordValidator = [
     check('email').isEmail().withMessage('Email không hợp lệ'),
   ];
@@ -24,6 +13,7 @@ app.post('/changePassword', [
   
   router.post("/resetPassword/:token", resetPasswordValidator, async function (req, res, next) {
   });
+
 router.post("/changePassword", checkLogin, userValidator.checkStrongPassword(), async function (req, res, next) {
   try {
     const user = req.user; 
